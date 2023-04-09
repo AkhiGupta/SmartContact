@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{normal/base :: Layout (~{::body})}">
+<title>All contact</title>
+<body>
+	<section>
+		<div class="card mr-3">
+			<div class="card-body">
+				<h1 class="text-center ">This is a contact page</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Phone</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- th:text="'SCM2020'+${c.cId}"  th:text="${a.name}"-->
+
+						<tr th:each="a:${contacts}">
+							<th scope="row" th:text="${a.cId}">1</th>
+							<td th:text="${a.name}">Mark</td>
+							
+							
+							<td>
+								<a href="#" th:href="@{'/user/'+${a.cId}+'/contacts' }"><span th:text="${a.email}"></span>
+								</a>
+							</td>
+							
+							
+							<td th:text="${a.phone}">@mdo</td>
+							<td>
+						<!-- th:href="@{'/user/delete/'+${a.cId}}"  -->
+									
+								<a th:onclick="|deleteContact(${a.cId})|" class="btn btn-danger btn-sm">Delete</a>
+								<br>
+								
+								
+								<form method="post" th:action="@{'/user/update-contact/'+${a.cId}}" class="mt-2">
+									<button type="submit" class="btn btn-success btn-sm">update</button>
+								</form>
+								
+								
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${page != 0}"class="page-item"><a  th:href="@{'/user/show_contacts/'+${page-1}}" class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${page==i-1?'active':''}" th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+						<a th:href="@{'/user/show_contacts/'+${i-1}}" class="page-link" href="#">
+							<span th:text="${i}"></span>
+						</a></li>
+						
+						<li th:if="${page+1 != totalPages}" th:href="@{'/user/show_contacts/'+${page+1}}" class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+					
+				</nav>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
